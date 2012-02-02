@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.vpro.esper.event.TestEvent;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/nl/vpro/esper/service/eventServiceProviderTest-context.xml")
 public class EventServiceProviderTest {
@@ -19,10 +21,15 @@ public class EventServiceProviderTest {
     @Autowired
     private EventServiceProvider provider;
 
+    @Autowired
+    private TestListener listener;
+
     @Test
-    public void testService() {
+    public void testService() throws Exception {
         for(int i = 1; i <= 20; i++) {
-            provider.sendEvent(new TestEvent("Event " + i));
+            provider.send(new TestEvent("Event " + i));
         }
+
+        assertThat(listener.getCount()).isEqualTo(2);
     }
 }

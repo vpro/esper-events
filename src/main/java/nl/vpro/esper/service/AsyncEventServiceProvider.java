@@ -4,8 +4,8 @@
  */
 package nl.vpro.esper.service;
 
-public interface EventServiceProvider {
+public interface AsyncEventServiceProvider extends EventServiceProvider {
 
-    void send(Object event);
+    boolean offer(Object event);
 
 }

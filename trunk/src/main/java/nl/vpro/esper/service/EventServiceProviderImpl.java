@@ -14,11 +14,11 @@ import com.espertech.esper.client.*;
 
 public class EventServiceProviderImpl implements EventServiceProvider {
 
-    private EPServiceProvider epServiceProvider;
+    protected EPServiceProvider epServiceProvider;
 
-    private EPRuntime epRuntime;
+    protected EPRuntime epRuntime;
 
-    private Set<Statement> statements = new LinkedHashSet<Statement>();
+    protected Set<Statement> statements = new LinkedHashSet<Statement>();
 
     public EventServiceProviderImpl() {
         Configuration config = new Configuration();

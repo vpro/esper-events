@@ -4,7 +4,6 @@
  */
 package nl.vpro.esper.service;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -14,38 +13,42 @@ import java.util.concurrent.Executors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import com.espertech.esper.client.*;
+import com.espertech.esper.client.EPStatement;
 
-public class AsyncEventServiceProviderImpl implements AsyncEventServiceProvider {
+public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
 
-    private EPServiceProvider epServiceProvider;
-
-    private EPRuntime epRuntime;
-
-    private Set<Statement> statements = new LinkedHashSet<Statement>();
-
-    private final BlockingQueue queue = new ArrayBlockingQueue(200);
+    private final BlockingQueue queue;
 
     private ExecutorService executor;
 
     public AsyncEventServiceProviderImpl() {
-        Configuration config = new Configuration();
-        config.addEventTypeAutoName("nl.vpro.esper.event");
+        super();
+        queue = new ArrayBlockingQueue(200);
+    }
 
-        epServiceProvider = EPServiceProviderManager.getDefaultProvider(config);
-        epRuntime = epServiceProvider.getEPRuntime();
+    public AsyncEventServiceProviderImpl(int queueSize) {
+        super();
+        queue = new ArrayBlockingQueue(queueSize);
     }
 
     public AsyncEventServiceProviderImpl(String name) {
-        this(name, "nl.vpro.esper.event");
+        super(name);
+        queue = new ArrayBlockingQueue(200);
+    }
+
+    public AsyncEventServiceProviderImpl(String name, int queueSize) {
+        super(name);
+        queue = new ArrayBlockingQueue(queueSize);
     }
 
     public AsyncEventServiceProviderImpl(String name, String eventPackage) {
-        Configuration config = new Configuration();
-        config.addEventTypeAutoName(eventPackage);
+        super(name, eventPackage);
+        queue = new ArrayBlockingQueue(200);
+    }
 
-        epServiceProvider = EPServiceProviderManager.getProvider(name, config);
-        epRuntime = epServiceProvider.getEPRuntime();
+    public AsyncEventServiceProviderImpl(String name, String eventPackage, int queueSize) {
+        super(name, eventPackage);
+        queue = new ArrayBlockingQueue(queueSize);
     }
 
     @PostConstruct

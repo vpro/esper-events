@@ -4,7 +4,6 @@
  */
 package nl.vpro.esper.service;
 
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -12,6 +11,8 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
+import org.apache.log4j.spi.LoggerFactory;
 
 import com.espertech.esper.client.EPStatement;
 
@@ -53,11 +54,6 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     @PostConstruct
     private void init() {
-        for(Statement statement : statements) {
-            EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
-            statement.setEPStatement(epStatement);
-        }
-
         executor = Executors.newSingleThreadExecutor();
         executor.submit(new EventHandler());
     }
@@ -81,25 +77,15 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         return queue.offer(event);
     }
 
-    public void addStatement(Statement statement) {
-        this.statements.add(statement);
-
-        EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
-        statement.setEPStatement(epStatement);
-    }
-
-    public void setStatements(Set<Statement> statements) {
-        this.statements = statements;
-    }
-
     private class EventHandler implements Runnable {
-
         public void run() {
-            try {
-                Object event = queue.take();
-                epRuntime.sendEvent(event);
-            } catch(InterruptedException e) {
-                e.printStackTrace();
+            while(true) {
+                try {
+                    Object event = queue.take();
+                    epRuntime.sendEvent(event);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

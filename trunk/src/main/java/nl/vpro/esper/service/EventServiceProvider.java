@@ -6,6 +6,8 @@ package nl.vpro.esper.service;
 
 public interface EventServiceProvider {
 
+    void addStatement(Statement statement);
+
     void send(Object event);
 
 }

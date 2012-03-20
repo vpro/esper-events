@@ -59,6 +59,9 @@ public class EventServiceProviderImpl implements EventServiceProvider {
 
     public void addStatement(Statement statement) {
         this.statements.add(statement);
+
+        EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
+        statement.setEPStatement(epStatement);
     }
 
     public void setStatements(Set<Statement> statements) {

@@ -16,11 +16,11 @@ import nl.vpro.esper.listener.Counter;
 import static org.fest.assertions.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/nl/vpro/esper/service/eventServiceProviderTest-context.xml")
-public class EventServiceProviderTest {
+@ContextConfiguration(locations = "classpath:/nl/vpro/esper/service/asyncEventServiceProviderTest-context.xml")
+public class AsyncEventServiceProviderTest {
 
     @Autowired
-    private EventServiceProvider provider;
+    private AsyncEventServiceProvider provider;
 
     @Autowired
     private Counter listener;
@@ -28,8 +28,10 @@ public class EventServiceProviderTest {
     @Test
     public void testService() throws Exception {
         for(int i = 1; i <= 20; i++) {
-            provider.send(new TestEvent("Event " + i));
+            provider.offer(new TestEvent("Event " + i));
         }
+
+        Thread.sleep(10);
 
         assertThat(listener.getCount()).isEqualTo(2);
     }

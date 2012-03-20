@@ -20,7 +20,7 @@
 
   <bean id="testStatement" class="nl.vpro.esper.service.Statement">
     <constructor-arg>
-      <value>select * from TestEvent where name like '%6'</value>
+      <value>select count(*) from TestEvent where name like '%6'</value>
     </constructor-arg>
     <property name="listeners" ref="listener"/>
   </bean>

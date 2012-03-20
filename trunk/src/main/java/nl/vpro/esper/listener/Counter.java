@@ -2,24 +2,21 @@
  * Copyright (C) 2012 All rights reserved
  * VPRO The Netherlands
  */
-package nl.vpro.esper.service;
-
-import org.junit.Ignore;
+package nl.vpro.esper.listener;
 
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.UpdateListener;
+import com.espertech.esper.event.map.MapEventBean;
 
-@Ignore("Not a test")
-public class TestListener implements UpdateListener {
+public class Counter implements UpdateListener {
 
-    private int count = 0;
+    private Long count = 0l;
 
     public void update(EventBean[] newEvents, EventBean[] oldEvents) {
-        System.out.println((newEvents[0].getUnderlying()));
-        count++;
+        count = (Long)((MapEventBean)newEvents[0]).getProperties().get("count(*)");
     }
 
-    public int getCount() {
+    public Long getCount() {
         return count;
     }
 }

@@ -25,6 +25,8 @@ import com.espertech.esper.event.map.MapEventBean;
  * The list returned has a configurable size. When no new events arrive the list will drain unless the
  * keepSize config is set to true. When set to true, events falling outside the queried window are kept in the
  * list until they are updated or overtaken by newer events. On startup the list is empty.
+ *
+ * @since 1.1
  */
 public class TopList implements UpdateListener {
     private final ConcurrentSkipListSet<Rating> topRatings = new ConcurrentSkipListSet<Rating>();

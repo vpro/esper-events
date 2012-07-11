@@ -4,12 +4,12 @@
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
 
   <scm>
-    <connection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/tags/esper-events-1.2</connection>
-    <developerConnection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/tags/esper-events-1.2</developerConnection>
-    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/tags/esper-events-1.2</url>
+    <connection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/trunk</connection>
+    <developerConnection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/trunk</developerConnection>
+    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/</url>
   </scm>
 
   <dependencies>

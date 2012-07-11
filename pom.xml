@@ -67,6 +67,7 @@
         <configuration>
           <goals>install</goals>
           <branchName>REL-${project.version}</branchName>
+          <tagNameFormat>REL-${project.version}</tagNameFormat>
         </configuration>
       </plugin>
     </plugins>

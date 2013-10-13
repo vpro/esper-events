@@ -10,6 +10,7 @@
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
+  <version>1.5-SNAPSHOT</version>
 
   <scm>
     <connection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/trunk</connection>

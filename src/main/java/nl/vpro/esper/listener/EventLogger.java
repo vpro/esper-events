@@ -4,7 +4,6 @@
  */
 package nl.vpro.esper.listener;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,23 +28,24 @@ public class EventLogger implements UpdateListener {
         this.properties = eventProperties;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void update(EventBean[] newEvents, EventBean[] oldEvents) {
         EventBean eventBean = newEvents[0];
 
-        List<Object> propList = null;
+        List<Object> propList;
         if(eventBean instanceof MapEventBean) {
             propList = handleMap(eventBean);
         } else {
             Object event = eventBean.getUnderlying();
-            propList = handelEvent(event);
+            propList = handleEvent(event);
         }
 
         logger.info(message, propList.toArray());
     }
 
     private List<Object> handleMap(EventBean map) {
-        List<Object> propList = new ArrayList<Object>();
+        List<Object> propList = new ArrayList<>();
         for(String property : properties) {
             try {
                 propList.add(map.get(property));
@@ -56,8 +56,8 @@ public class EventLogger implements UpdateListener {
         return propList;
     }
 
-    private List<Object> handelEvent(Object event) {
-        List<Object> propList = new ArrayList<Object>();
+    private List<Object> handleEvent(Object event) {
+        List<Object> propList = new ArrayList<>();
         for(String property : properties) {
             try {
                 propList.add(PropertyUtils.getProperty(event, property));

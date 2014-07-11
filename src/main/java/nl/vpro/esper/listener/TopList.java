@@ -47,6 +47,7 @@ public class TopList implements UpdateListener {
         this.keepSize = keepSize;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void update(EventBean[] newEvents, EventBean[] oldEvents) {
         EventBean eventBean = newEvents[0];
@@ -136,11 +137,8 @@ public class TopList implements UpdateListener {
 
             Rating rating = (Rating)o;
 
-            if(key != null ? !key.equals(rating.key) : rating.key != null) {
-                return false;
-            }
+            return !(key != null ? !key.equals(rating.key) : rating.key != null);
 
-            return true;
         }
 
         @Override

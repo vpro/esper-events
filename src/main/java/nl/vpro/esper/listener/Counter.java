@@ -12,15 +12,14 @@ import com.espertech.esper.client.UpdateListener;
 import com.espertech.esper.event.map.MapEventBean;
 
 public class Counter implements UpdateListener {
-    private static final Logger log = LoggerFactory.getLogger(Counter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Counter.class);
 
     private Long count = 0l;
 
+    @Override
     public void update(EventBean[] newEvents, EventBean[] oldEvents) {
         count = (Long)((MapEventBean)newEvents[0]).getProperties().get("count(*)");
-        if(log.isDebugEnabled()) {
-            log.debug("Count: " + count);
-        }
+        LOG.debug("Count: " + count);
     }
 
     public Long getCount() {

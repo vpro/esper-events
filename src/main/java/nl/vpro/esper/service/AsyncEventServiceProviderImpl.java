@@ -12,45 +12,42 @@ import java.util.concurrent.Executors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.apache.log4j.spi.LoggerFactory;
-
-import com.espertech.esper.client.EPStatement;
-
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
 
-    private final BlockingQueue queue;
+    private final BlockingQueue<Object> queue;
 
     private ExecutorService executor;
 
     public AsyncEventServiceProviderImpl() {
-        super();
-        queue = new ArrayBlockingQueue(200);
+        this(200);
     }
 
     public AsyncEventServiceProviderImpl(int queueSize) {
         super();
-        queue = new ArrayBlockingQueue(queueSize);
+        queue = new ArrayBlockingQueue<>(queueSize);
     }
 
     public AsyncEventServiceProviderImpl(String name) {
-        super(name);
-        queue = new ArrayBlockingQueue(200);
+        this(name, 200);
     }
 
     public AsyncEventServiceProviderImpl(String name, int queueSize) {
-        super(name);
-        queue = new ArrayBlockingQueue(queueSize);
+        this(name, new String[] {}, queueSize);
     }
 
-    public AsyncEventServiceProviderImpl(String name, String eventPackage) {
-        super(name, eventPackage);
-        queue = new ArrayBlockingQueue(200);
+    public AsyncEventServiceProviderImpl(String name, String... eventPackage) {
+        this(name, eventPackage, 200);
     }
 
     public AsyncEventServiceProviderImpl(String name, String eventPackage, int queueSize) {
-        super(name, eventPackage);
-        queue = new ArrayBlockingQueue(queueSize);
+        this(name, new String[] {eventPackage}, queueSize);
     }
+
+    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueSize) {
+        super(name, eventPackage);
+        queue = new ArrayBlockingQueue<>(queueSize);
+    }
+
 
     @PostConstruct
     private void init() {
@@ -65,6 +62,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         queue.clear();
     }
 
+    @Override
     public void send(Object event) {
         try {
             queue.put(event);
@@ -73,11 +71,13 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         }
     }
 
+    @Override
     public boolean offer(Object event) {
         return queue.offer(event);
     }
 
     private class EventHandler implements Runnable {
+        @Override
         public void run() {
             while(true) {
                 try {

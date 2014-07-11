@@ -11,11 +11,11 @@ import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.UpdateListener;
 
 public class Statement {
-    private String epl;
+    private final String epl;
 
     private EPStatement epStatement;
 
-    private Set<UpdateListener> listeners = new LinkedHashSet<UpdateListener>();
+    private final Set<UpdateListener> listeners = new LinkedHashSet<>();
 
     public Statement(String epl) {
         this.epl = epl;

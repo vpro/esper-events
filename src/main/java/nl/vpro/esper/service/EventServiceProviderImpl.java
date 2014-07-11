@@ -18,7 +18,7 @@ public class EventServiceProviderImpl implements EventServiceProvider {
 
     protected EPRuntime epRuntime;
 
-    protected Set<Statement> statements = new LinkedHashSet<Statement>();
+    protected Set<Statement> statements = new LinkedHashSet<>();
 
     public EventServiceProviderImpl() {
         Configuration config = new Configuration();
@@ -32,9 +32,11 @@ public class EventServiceProviderImpl implements EventServiceProvider {
         this(name, "nl.vpro.esper.event");
     }
 
-    public EventServiceProviderImpl(String name, String eventPackage) {
+    public EventServiceProviderImpl(String name, String... eventPackages) {
         Configuration config = new Configuration();
-        config.addEventTypeAutoName(eventPackage);
+        for (String eventPackage : eventPackages) {
+            config.addEventTypeAutoName(eventPackage);
+        }
 
         epServiceProvider = EPServiceProviderManager.getProvider(name, config);
         epRuntime = epServiceProvider.getEPRuntime();
@@ -53,10 +55,12 @@ public class EventServiceProviderImpl implements EventServiceProvider {
         epServiceProvider.destroy();
     }
 
+    @Override
     public void send(Object event) {
         epRuntime.sendEvent(event);
     }
 
+    @Override
     public void addStatement(Statement statement) {
         this.statements.add(statement);
 

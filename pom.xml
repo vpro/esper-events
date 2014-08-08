@@ -10,12 +10,12 @@
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
-  <version>1.6.0</version>
+  <version>1.6.1-SNAPSHOT</version>
 
   <scm>
-    <connection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/tags/REL-1.6.0</connection>
-    <developerConnection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/tags/REL-1.6.0</developerConnection>
-    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/tags/REL-1.6.0</url>
+    <connection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/branches/REL-1.6-SNAPSHOT</connection>
+    <developerConnection>scm:svn:svn+ssh://subversion.vpro.nl/export/svn/nl/vpro/esper/branches/REL-1.6-SNAPSHOT</developerConnection>
+    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/branches/REL-1.6-SNAPSHOT</url>
   </scm>
 
   <dependencies>

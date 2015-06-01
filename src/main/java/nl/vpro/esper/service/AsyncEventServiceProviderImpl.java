@@ -12,7 +12,12 @@ import java.util.concurrent.Executors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AsyncEventServiceProviderImpl.class);
 
     private final BlockingQueue<Object> queue;
 
@@ -84,7 +89,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                     Object event = queue.take();
                     epRuntime.sendEvent(event);
                 } catch(InterruptedException e) {
-                    e.printStackTrace();
+                    LOG.warn(e.getMessage());
                 }
             }
         }

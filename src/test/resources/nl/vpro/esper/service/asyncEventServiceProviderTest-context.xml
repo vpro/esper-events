@@ -11,6 +11,7 @@
   <context:annotation-config/>
 
   <bean class="nl.vpro.esper.service.AsyncEventServiceProviderImpl">
+    <constructor-arg value="200" />
     <property name="statements">
       <util:set>
         <ref bean="testStatement"/>

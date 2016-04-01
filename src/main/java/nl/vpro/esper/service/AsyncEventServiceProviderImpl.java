@@ -4,10 +4,8 @@
  */
 package nl.vpro.esper.service;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.time.Duration;
+import java.util.concurrent.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,10 +20,6 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     private final BlockingQueue<Object> queue;
 
     private ExecutorService executor;
-
-    public AsyncEventServiceProviderImpl() {
-        this(200);
-    }
 
     public AsyncEventServiceProviderImpl(int queueSize) {
         super();
@@ -77,8 +71,13 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     }
 
     @Override
-    public boolean offer(Object event) {
-        return queue.offer(event);
+    public boolean offer(Object event, Duration timeout) {
+        try {
+            return queue.offer(event, timeout.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ie) {
+            LOG.warn(ie.getMessage());
+            return false;
+        }
     }
 
     private class EventHandler implements Runnable {

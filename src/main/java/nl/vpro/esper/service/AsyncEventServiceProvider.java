@@ -4,8 +4,10 @@
  */
 package nl.vpro.esper.service;
 
+import java.time.Duration;
+
 public interface AsyncEventServiceProvider extends EventServiceProvider {
 
-    boolean offer(Object event);
+    boolean offer(Object event, Duration timeout);
 
 }

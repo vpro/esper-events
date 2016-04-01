@@ -4,9 +4,6 @@
  */
 package nl.vpro.esper.event;
 
-import org.junit.Ignore;
-
-@Ignore("Not a test")
 public class TestEvent {
     private String name;
 

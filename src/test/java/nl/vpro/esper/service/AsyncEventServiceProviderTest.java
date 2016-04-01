@@ -4,6 +4,8 @@
  */
 package nl.vpro.esper.service;
 
+import java.time.Duration;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class AsyncEventServiceProviderTest {
     @Test
     public void testService() throws Exception {
         for(int i = 1; i <= 20; i++) {
-            provider.offer(new TestEvent("Event " + i));
+            provider.offer(new TestEvent("Event " + i), Duration.ofMillis(1000));
         }
 
         Thread.sleep(10);

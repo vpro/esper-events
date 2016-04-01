@@ -12,6 +12,7 @@
 
   <bean class="nl.vpro.esper.service.AsyncEventServiceProviderImpl">
     <constructor-arg value="200" />
+    <constructor-arg value="nl.vpro.esper.event" />
     <property name="statements">
       <util:set>
         <ref bean="testStatement"/>

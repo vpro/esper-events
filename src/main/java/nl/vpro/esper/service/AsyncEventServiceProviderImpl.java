@@ -79,6 +79,14 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         }
     }
 
+    public Duration getDefaultTimeout() {
+        return defaultTimeout;
+    }
+
+    public void setDefaultTimeout(Duration defaultTimeout) {
+        this.defaultTimeout = defaultTimeout;
+    }
+
     private class EventHandler implements Runnable {
         @Override
         public void run() {

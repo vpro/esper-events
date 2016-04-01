@@ -21,6 +21,9 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     private ExecutorService executor;
 
+
+    private Duration defaultTimeout = Duration.ofSeconds(10);
+
     public AsyncEventServiceProviderImpl(int queueSize) {
         super();
         queue = new ArrayBlockingQueue<>(queueSize);
@@ -63,11 +66,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     @Override
     public void send(Object event) {
-        try {
-            queue.put(event);
-        } catch(InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        offer(event, defaultTimeout);
     }
 
     @Override

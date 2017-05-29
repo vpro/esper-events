@@ -1,11 +1,10 @@
-/**
+/*
  * Copyright (C) 2012 All rights reserved
  * VPRO The Netherlands
  */
 package nl.vpro.esper.listener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -29,7 +28,7 @@ import com.espertech.esper.event.map.MapEventBean;
  * @since 1.1
  */
 public class TopList implements UpdateListener {
-    private final ConcurrentSkipListSet<Rating> topRatings = new ConcurrentSkipListSet<Rating>();
+    private final ConcurrentSkipListSet<Rating> topRatings = new ConcurrentSkipListSet<>();
 
     private final String key;
 
@@ -60,12 +59,7 @@ public class TopList implements UpdateListener {
             Rating rating = new Rating(id, count);
 
             // ratings.remove(rating) does not remove on equals
-            for(Iterator<Rating> iterator = topRatings.iterator(); iterator.hasNext(); ) {
-                Rating next = iterator.next();
-                if(next.equals(rating)) {
-                    iterator.remove();
-                }
-            }
+            topRatings.removeIf(next -> next.equals(rating));
 
             // decrease events are fired as well do not add these when 0 is reached, i.e. when they fall
             // outside the given time range, unless explicitly configured to keep them
@@ -78,7 +72,7 @@ public class TopList implements UpdateListener {
     }
 
     public List<Rating> getTopRatings() {
-        List<Rating> result = new ArrayList<Rating>(topRatings);
+        List<Rating> result = new ArrayList<>(topRatings);
         int ratingsSize = topRatings.size();
         int size = ratingsSize >= this.size ? this.size : ratingsSize;
         return result.subList(0, size);
@@ -110,12 +104,10 @@ public class TopList implements UpdateListener {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("Rating");
-            sb.append("{key='").append(key).append('\'');
-            sb.append(", score=").append(score);
-            sb.append('}');
-            return sb.toString();
+            return "Rating" +
+                "{key='" + key + '\'' +
+                ", score=" + score +
+                '}';
         }
 
         @Override

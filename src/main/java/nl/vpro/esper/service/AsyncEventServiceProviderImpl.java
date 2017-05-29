@@ -1,8 +1,10 @@
-/**
+/*
  * Copyright (C) 2012 All rights reserved
  * VPRO The Netherlands
  */
 package nl.vpro.esper.service;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.concurrent.*;
@@ -10,12 +12,8 @@ import java.util.concurrent.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+@Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AsyncEventServiceProviderImpl.class);
 
     private final BlockingQueue<Object> queue;
 
@@ -74,7 +72,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         try {
             return queue.offer(event, timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException ie) {
-            LOG.warn(ie.getMessage());
+            log.warn(ie.getMessage());
             return false;
         }
     }
@@ -95,7 +93,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                     Object event = queue.take();
                     epRuntime.sendEvent(event);
                 } catch(InterruptedException e) {
-                    LOG.warn(e.getMessage());
+                    log.warn(e.getMessage());
                 }
             }
         }

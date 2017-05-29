@@ -12,15 +12,17 @@ import java.util.concurrent.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import nl.vpro.util.TimeUtils;
+
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
 
     private final BlockingQueue<Object> queue;
 
-    private ExecutorService executor;
-
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private Duration defaultTimeout = Duration.ofSeconds(10);
+    private boolean running = true;
 
     public AsyncEventServiceProviderImpl(int queueSize) {
         super();
@@ -51,12 +53,12 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     @PostConstruct
     private void init() {
-        executor = Executors.newSingleThreadExecutor();
         executor.submit(new EventHandler());
     }
 
     @PreDestroy
     private void shutDown() {
+        running = false;
         executor.shutdown();
         epServiceProvider.destroy();
         queue.clear();
@@ -85,15 +87,25 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         this.defaultTimeout = defaultTimeout;
     }
 
+
+    public void setDefaultTimeoutAsString(String defaultTimeout) {
+        this.defaultTimeout = TimeUtils.parseDuration(defaultTimeout).orElse(this.defaultTimeout);
+    }
+
     private class EventHandler implements Runnable {
         @Override
         public void run() {
-            while(true) {
+            while(running) {
                 try {
                     Object event = queue.take();
                     epRuntime.sendEvent(event);
                 } catch(InterruptedException e) {
                     log.warn(e.getMessage());
+                } catch(Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+                if (Thread.currentThread().isInterrupted()) {
+                    break;
                 }
             }
         }

@@ -14,9 +14,9 @@ import com.espertech.esper.client.*;
 
 public class EventServiceProviderImpl implements EventServiceProvider {
 
-    protected EPServiceProvider epServiceProvider;
+    protected final EPServiceProvider epServiceProvider;
 
-    protected EPRuntime epRuntime;
+    protected final EPRuntime epRuntime;
 
     protected Set<Statement> statements = new LinkedHashSet<>();
 

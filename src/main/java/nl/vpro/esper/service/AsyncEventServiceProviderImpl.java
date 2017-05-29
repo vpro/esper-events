@@ -7,6 +7,7 @@ package nl.vpro.esper.service;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.*;
 
 import javax.annotation.PostConstruct;
@@ -24,30 +25,31 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     private Duration defaultTimeout = Duration.ofSeconds(10);
     private boolean running = true;
 
-    public AsyncEventServiceProviderImpl(int queueSize) {
+
+    public AsyncEventServiceProviderImpl(int queueCapacity) {
         super();
-        queue = new ArrayBlockingQueue<>(queueSize);
+        queue = new ArrayBlockingQueue<>(queueCapacity);
     }
 
     public AsyncEventServiceProviderImpl(String name) {
         this(name, 200);
     }
 
-    public AsyncEventServiceProviderImpl(String name, int queueSize) {
-        this(name, new String[] {}, queueSize);
+    public AsyncEventServiceProviderImpl(String name, int queueCapacity) {
+        this(name, new String[] {}, queueCapacity);
     }
 
     public AsyncEventServiceProviderImpl(String name, String... eventPackage) {
         this(name, eventPackage, 200);
     }
 
-    public AsyncEventServiceProviderImpl(String name, String eventPackage, int queueSize) {
-        this(name, new String[] {eventPackage}, queueSize);
+    public AsyncEventServiceProviderImpl(String name, String eventPackage, int queueCapacity) {
+        this(name, new String[] {eventPackage}, queueCapacity);
     }
 
-    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueSize) {
+    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueCapacity) {
         super(name, eventPackage);
-        queue = new ArrayBlockingQueue<>(queueSize);
+        queue = new ArrayBlockingQueue<>(queueCapacity);
     }
 
 
@@ -93,10 +95,15 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     }
 
     private class EventHandler implements Runnable {
+        private Instant lastLog = Instant.EPOCH;
         @Override
         public void run() {
             while(running) {
                 try {
+                    if (queue.size() > queue.remainingCapacity() && lastLog.isBefore(Instant.now().minus(Duration.ofMinutes(5)))) {
+                        log.warn("Queue size {} (remaining capacity {})", queue.size(), queue.remainingCapacity());
+                        lastLog = Instant.now();
+                    }
                     Object event = queue.take();
                     epRuntime.sendEvent(event);
                 } catch(InterruptedException e) {

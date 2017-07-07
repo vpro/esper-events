@@ -15,7 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.listener.Counter;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/nl/vpro/esper/service/asyncEventServiceProviderTest-context.xml")

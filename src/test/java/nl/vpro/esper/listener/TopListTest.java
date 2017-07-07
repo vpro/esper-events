@@ -13,7 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.service.EventServiceProvider;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 /**
  * See https://jira.vpro.nl/browse/MSE-

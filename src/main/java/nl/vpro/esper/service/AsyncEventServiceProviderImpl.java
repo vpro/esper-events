@@ -13,8 +13,6 @@ import java.util.concurrent.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import nl.vpro.util.TimeUtils;
-
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
 
@@ -91,7 +89,11 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
 
     public void setDefaultTimeoutAsString(String defaultTimeout) {
-        this.defaultTimeout = TimeUtils.parseDuration(defaultTimeout).orElse(this.defaultTimeout);
+        try {
+            this.defaultTimeout = Duration.parse(defaultTimeout);
+        } catch(Exception e) {
+
+        }
     }
 
     private class EventHandler implements Runnable {

@@ -4,11 +4,8 @@
  */
 package nl.vpro.esper.service;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.listener.Counter;
@@ -16,15 +13,19 @@ import nl.vpro.esper.listener.Counter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/nl/vpro/esper/service/eventServiceProviderTest-context.xml")
 public class EventServiceProviderTest {
 
-    @Autowired
     private EventServiceProvider provider;
-
-    @Autowired
     private Counter listener;
+
+    @Before
+    public void setup() {
+        Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
+        provider = new EventServiceProviderImpl();
+        provider.addStatement(testStatement);
+        listener = new Counter();
+        testStatement.addListener(listener);
+    }
 
     @Test
     public void testService() throws Exception {

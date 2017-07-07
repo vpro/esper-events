@@ -4,14 +4,12 @@
  */
 package nl.vpro.esper.listener;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.service.EventServiceProvider;
+import nl.vpro.esper.service.Statement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,15 +20,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Roelof Jan Koekoek
  * @since 1.4
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/nl/vpro/esper/listener/topListTest-context.xml")
 public class TopListTest {
 
-    @Autowired
-    private EventServiceProvider provider;
+    TopList listener;
+    EventServiceProvider provider;
+    @Before
+    public void setup() {
+        provider = new nl.vpro.esper.service.EventServiceProviderImpl();
+        Statement statement = new Statement("select name, count(*) from TestEvent.win:time(1 min) group by name");
+        listener = new TopList("name", 5, true);
+        statement.addListener(listener);
+        provider.addStatement(statement);
+    }
 
-    @Autowired
-    private TopList listener;
 
     @Test
     public void testUpdate() throws Exception {

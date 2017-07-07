@@ -52,7 +52,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
 
     @PostConstruct
-    private void init() {
+    void init() {
         executor.submit(new EventHandler());
     }
 

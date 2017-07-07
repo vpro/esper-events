@@ -16,13 +16,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AsyncEventServiceProviderTest {
 
-    private AsyncEventServiceProvider provider;
+    private AsyncEventServiceProviderImpl provider;
     private Counter listener;
 
     @Before
     public void setup() {
         Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
-        provider = new nl.vpro.esper.service.AsyncEventServiceProviderImpl("200", "nl.vpro.esper.event");
+        provider = new AsyncEventServiceProviderImpl("200", "nl.vpro.esper.event");
+        provider.init();
         provider.addStatement(testStatement);
         listener = new Counter();
         testStatement.addListener(listener);

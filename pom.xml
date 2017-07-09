@@ -4,12 +4,12 @@
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
-  <version>2.3-SNAPSHOT</version>
+  <version>2.3.0</version>
 
   <scm>
-    <connection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/branches/REL-2.3-SNAPSHOT</connection>
-    <developerConnection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/branches/REL-2.3-SNAPSHOT</developerConnection>
-    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/branches/REL-2.3-SNAPSHOT</url>
+    <connection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/tags/REL-2.3.0</connection>
+    <developerConnection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/tags/REL-2.3.0</developerConnection>
+    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/tags/REL-2.3.0</url>
   </scm>
   <properties>
     <slf4j.version>1.7.5</slf4j.version>

@@ -12,7 +12,7 @@
     <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/trunk</url>
   </scm>
   <properties>
-    <slf4j.version>1.7.5</slf4j.version>
+    <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>
   </properties>
 
@@ -20,7 +20,7 @@
     <dependency>
       <groupId>com.espertech</groupId>
       <artifactId>esper</artifactId>
-      <version>6.1.0</version>
+      <version>7.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -35,14 +35,14 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.16</version>
+      <version>1.16.20</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.6.2</version>
+      <version>3.9.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -63,7 +63,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+        <version>3.7.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -104,7 +104,6 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
   </repositories>

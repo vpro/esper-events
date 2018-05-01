@@ -94,7 +94,7 @@
       <url>http://nexus.vpro.nl/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
-
+<!--
   <repositories>
     <repository>
       <id>vpro</id>
@@ -119,4 +119,5 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  -->
 </project>

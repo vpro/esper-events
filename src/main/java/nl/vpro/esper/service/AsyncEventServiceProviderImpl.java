@@ -111,7 +111,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                         epRuntime.sendEvent(event);
                     }
                 } catch(InterruptedException e) {
-                    log.warn(e.getMessage());
+                    log.warn(e.getClass().getName() + " " + e.getMessage());
                     break;
                 } catch(Exception e) {
                     log.error(e.getMessage(), e);

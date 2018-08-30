@@ -18,7 +18,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     private final BlockingQueue<Object> queue;
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
     private Duration defaultTimeout = Duration.ofSeconds(10);
     private boolean running = true;
@@ -53,15 +53,15 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     @PostConstruct
     void init() {
-        executor.submit(new EventHandler());
+        EXECUTOR.submit(new EventHandler());
     }
 
     @PreDestroy
     private void shutDown() {
         running = false;
-        executor.shutdown();
         epServiceProvider.destroy();
         queue.clear();
+        EXECUTOR.shutdownNow();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         try {
             return queue.offer(event, timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException ie) {
-            log.warn(ie.getMessage());
+            log.warn(ie.getClass().getName(), ie.getMessage());
             return false;
         }
     }
@@ -106,15 +106,15 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                         log.warn("Queue size {} (remaining capacity {})", queue.size(), queue.remainingCapacity());
                         lastLog = Instant.now();
                     }
-                    Object event = queue.take();
-                    epRuntime.sendEvent(event);
+                    Object event = queue.poll(5, TimeUnit.SECONDS);
+                    if (event != null) {
+                        epRuntime.sendEvent(event);
+                    }
                 } catch(InterruptedException e) {
                     log.warn(e.getMessage());
+                    break;
                 } catch(Exception e) {
                     log.error(e.getMessage(), e);
-                }
-                if (Thread.currentThread().isInterrupted()) {
-                    break;
                 }
             }
         }

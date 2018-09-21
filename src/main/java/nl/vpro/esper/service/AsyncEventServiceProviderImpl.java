@@ -4,6 +4,8 @@
  */
 package nl.vpro.esper.service;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
@@ -20,6 +22,8 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
 
     private final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
+    @Getter
+    @Setter
     private Duration defaultTimeout = Duration.ofSeconds(10);
     private boolean running = true;
 
@@ -74,17 +78,9 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         try {
             return queue.offer(event, timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException ie) {
-            log.warn(ie.getClass().getName(), ie.getMessage());
+            log.info("Interrupted");
             return false;
         }
-    }
-
-    public Duration getDefaultTimeout() {
-        return defaultTimeout;
-    }
-
-    public void setDefaultTimeout(Duration defaultTimeout) {
-        this.defaultTimeout = defaultTimeout;
     }
 
 

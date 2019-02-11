@@ -41,6 +41,7 @@
     <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
     <developerConnection>scm:git:git@github.com:vpros/esper-events.git</developerConnection>
     <url>https://github.com/vpro/esper-events</url>
+    <tag>REL-2.6-SNAPSHOT</tag>
   </scm>
 
   <properties>

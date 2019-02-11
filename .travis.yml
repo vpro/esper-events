@@ -1,19 +1,12 @@
 language: java
 env:
- global:
+  global:
   - SONATYPE_USERNAME=vpro
-  - secure: "ehlL6uKGfIWjHyuuWHvojxRfwwO0QfNls7YRp1P2j5K8j0Lsv0n30nJIBxrduy2SkZeWxqBI8k5eq+k5Ue0+GZ3ypX4LOXx3aJ9FSNF/ck7z0z4Xejf09z1IKqSy/f4MXVrAXw7aJ/a9h+QFH06WZfKUpg2mAfeh8oX/emmh4OQ="
-
-
+  - secure: sb01+KDT0+tQgliKdY2ZY/N4bz71S+YfYU5UKuJqbagr0y8ndKxvOFJv1b+vEae4/Ce63B9QPHLPqJ9E02S013zQBhY0Lp33kdD9qvTTS6O9rybrSMIZCQ75FSS1emuwRIWOKIeQLEEPHJYBycWGRo7UHMF86ZoSJm50seB0Lczxu6xTGyBRcsdcs3fPERmy2UBRZVJjkO74BNg1rongZlOJJQhIporV9bZlk/l8g025SU93JzxeBKPhsSJOAt3cl3aAPxDfBkYigm+pf8HJ7aIU0muPJyWjr3LhRR8y5elhqqC6dkjkxlWJ1KmWa4cUGmpZwsxeR85QEqwpehrkO31Epl/NmhvSPkWYe7gk0QCYS+BN4Wn53dEe96cYfQce/pf3hhj1Nn7F0tMeUOS3ZtstOVF0+G2uaWeS2IOh22bjg0S4RSb/R5IxvE+N4hKsOP2JL23WsoA4CKtitpNHTKr5ZIJVSu6faX2q6QWlMkpV4aUGIrNQSNzp9x78iepCJdTEhTrAxCCi3jccgmIvpV/OHD9J3TLJj3zgVe5mH+Wl+LX2aGwW4iA1xqGGXAOxGc06ZanvSd04ljPlwOOsB94KSP8wBPjGOICIrsXOBkyW4eWX/Cp9grb2wWWexoF2xAhHdHOA8jHjilV+FwJ12CK7vVSgeNNYJD00bhIYSJM=
 jdk:
 - oraclejdk8
-
 sudo: false
-
 script: mvn clean test install
-
 after_success:
 - mvn -Pdeploy deploy --settings .travis-settings.xml -DskipTests=true -Dgpg.skip=true  -B
 - bash <(curl -s https://codecov.io/bash)
-
-

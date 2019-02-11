@@ -6,6 +6,7 @@
   <artifactId>esper-events</artifactId>
   <version>2.6.1-SNAPSHOT</version>
 
+  <name>VPRO Esper Events</name>
   <inceptionYear>2012</inceptionYear>
   <description>Wrap some thing os com.espertech into services and some other utilities</description>
   <url>https://github.com/vpro/esper-events</url>

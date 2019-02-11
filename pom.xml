@@ -6,6 +6,7 @@
   <artifactId>esper-events</artifactId>
   <version>2.7-SNAPSHOT</version>
 
+  <name>VPRO Esper Events</name>
   <inceptionYear>2012</inceptionYear>
   <description>Wrap some thing os com.espertech into services and some other utilities</description>
   <url>https://github.com/vpro/esper-events</url>
@@ -111,6 +112,25 @@
           <branchName>REL-${project.version}</branchName>
           <tagNameFormat>REL-@{project.version}</tagNameFormat>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

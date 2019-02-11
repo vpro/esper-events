@@ -8,6 +8,34 @@
 
   <inceptionYear>2012</inceptionYear>
   <description>Wrap some thing os com.espertech into services and some other utilities</description>
+  <url>https://github.com/vpro/esper-events</url>
+
+
+  <licenses>
+    <license>
+      <name>GPLv3</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
+  </licenses>
+
+   <developers>
+    <developer>
+      <id>mihxil</id>
+      <name>Michiel Meeuwissen</name>
+      <email>michiel.meeuwissen+github@gmail.com</email>
+      <url>https://www.meeuw.org</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Amsterdam</timezone>
+    </developer>
+  </developers>
+
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/vpro/esper-events</url>
+  </ciManagement>
 
   <scm>
     <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
@@ -86,7 +114,7 @@
     </plugins>
   </build>
 
- 
+
   <distributionManagement>
     <snapshotRepository>
       <id>vpro-ossrh</id>

@@ -6,11 +6,15 @@
   <artifactId>esper-events</artifactId>
   <version>2.6-SNAPSHOT</version>
 
+  <inceptionYear>2012</inceptionYear>
+  <description>Wrap some thing os com.espertech into services and some other utilities</description>
+
   <scm>
-    <connection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/trunk</connection>
-    <developerConnection>scm:svn:https://subversion.vpro.nl/repo/nl/vpro/esper/trunk</developerConnection>
-    <url>https://subversion.vpro.nl/cgi-bin/viewvc.cgi/nl/vpro/esper/trunk</url>
+    <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
+    <developerConnection>scm:git:git@github.com:vpros/esper-events.git</developerConnection>
+    <url>https://github.com/vpro/esper-events</url>
   </scm>
+
   <properties>
     <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>

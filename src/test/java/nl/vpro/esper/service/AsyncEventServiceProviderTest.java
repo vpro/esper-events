@@ -4,13 +4,12 @@
  */
 package nl.vpro.esper.service;
 
-import java.time.Duration;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.listener.Counter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +18,7 @@ public class AsyncEventServiceProviderTest {
     private AsyncEventServiceProviderImpl provider;
     private Counter listener;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
         provider = new AsyncEventServiceProviderImpl("200", "nl.vpro.esper.event");

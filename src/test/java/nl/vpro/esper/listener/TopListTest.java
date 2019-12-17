@@ -4,12 +4,12 @@
  */
 package nl.vpro.esper.listener;
 
-import org.junit.Before;
-import org.junit.Test;
 
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.service.EventServiceProvider;
 import nl.vpro.esper.service.Statement;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +24,7 @@ public class TopListTest {
 
     TopList listener;
     EventServiceProvider provider;
-    @Before
+    @BeforeEach
     public void setup() {
         provider = new nl.vpro.esper.service.EventServiceProviderImpl();
         Statement statement = new Statement("select name, count(*) from TestEvent.win:time(1 min) group by name");

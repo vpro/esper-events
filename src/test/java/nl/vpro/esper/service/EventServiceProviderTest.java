@@ -4,11 +4,10 @@
  */
 package nl.vpro.esper.service;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.listener.Counter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +17,7 @@ public class EventServiceProviderTest {
     private EventServiceProvider provider;
     private Counter listener;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
         provider = new EventServiceProviderImpl();

@@ -1,0 +1,1 @@
+mvn -Pnexus -DaltDeploymentRepository=nexusvpro::default::http://nexus.vpro.nl/content/repositories/snapshots  deploy

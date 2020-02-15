@@ -8,12 +8,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.*;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
@@ -79,6 +78,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
             return queue.offer(event, timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException ie) {
             log.info("Interrupted");
+            Thread.currentThread().interrupt();
             return false;
         }
     }
@@ -108,6 +108,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                     }
                 } catch(InterruptedException e) {
                     log.info("Interrupted");
+                    Thread.currentThread().interrupt();
                     break;
                 } catch(Exception e) {
                     log.error(e.getMessage(), e);

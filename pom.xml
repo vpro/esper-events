@@ -15,7 +15,7 @@
   <licenses>
     <license>
       <name>GPLv3</name>
-      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
     </license>
   </licenses>
 
@@ -33,11 +33,7 @@
     </developer>
   </developers>
 
-  <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/vpro/esper-events</url>
-  </ciManagement>
-
+   
   <scm>
     <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
     <developerConnection>scm:git:git@github.com:vpro/esper-events.git</developerConnection>
@@ -46,8 +42,8 @@
   </scm>
 
   <properties>
-    <slf4j.version>1.7.25</slf4j.version>
-    <junit.version>5.6.2</junit.version>
+    <slf4j.version>2.0.7</slf4j.version>
+    <junit.version>5.9.2</junit.version>
   </properties>
 
   <dependencies>
@@ -64,14 +60,14 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.12</version>
+      <version>1.18.26</version>
     </dependency>
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.9.4</version>
       <exclusions>
-        <!-- as far as I known these dependencies are ptional, at least for the one class we use org.apache.commons.beanutils.PropertyUtils -->
+        <!-- as far as I know these dependencies are optional, at least for the one class we use org.apache.commons.beanutils.PropertyUtils -->
         <exclusion>
           <groupId>commons-logging</groupId>
           <artifactId>commons-logging</artifactId>
@@ -83,9 +79,14 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.16.1</version>
+      <version>3.24.2</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -106,7 +107,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.11.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -116,7 +117,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M1</version>
+        <version>3.0.0</version>
         <configuration>
           <branchName>REL-${project.version}</branchName>
           <tagNameFormat>REL-@{project.version}</tagNameFormat>
@@ -125,7 +126,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.3</version>
+        <version>0.8.9</version>
         <executions>
           <execution>
             <goals>
@@ -143,7 +144,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M4</version>
+        <version>3.0.0</version>
       </plugin>
     </plugins>
   </build>
@@ -156,7 +157,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
+            <version>1.6.13</version>
             <extensions>true</extensions>
             <configuration>
               <serverId>vpro-ossrh</serverId>
@@ -165,9 +166,8 @@
             </configuration>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.1</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -178,9 +178,8 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -193,9 +192,8 @@
           </plugin>
 
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.5.0</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>

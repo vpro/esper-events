@@ -33,7 +33,7 @@
     </developer>
   </developers>
 
-   
+
   <scm>
     <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
     <developerConnection>scm:git:git@github.com:vpro/esper-events.git</developerConnection>
@@ -42,8 +42,8 @@
   </scm>
 
   <properties>
-    <slf4j.version>2.0.9</slf4j.version>
-    <junit.version>5.10.0</junit.version>
+    <slf4j.version>2.0.11</slf4j.version>
+    <junit.version>5.10.1</junit.version>
   </properties>
 
   <dependencies>
@@ -86,7 +86,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.24.2</version>
+      <version>3.25.2</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

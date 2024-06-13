@@ -6,6 +6,7 @@ package nl.vpro.esper.service;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ import com.espertech.esper.compiler.client.*;
 import com.espertech.esper.runtime.client.*;
 import com.google.common.reflect.ClassPath;
 
-
+@Slf4j
 public class EventServiceProviderImpl implements EventServiceProvider {
 
 
@@ -45,7 +46,10 @@ public class EventServiceProviderImpl implements EventServiceProvider {
             .stream()
             .filter(c -> eventPackagesSet.contains(c.getPackageName()))
             .map(ClassPath.ClassInfo::load)
-            .forEach(config.getCommon()::addEventType);
+            .forEach((found) -> {
+                log.info("Found event type {}", found);
+                config.getCommon().addEventType(found);
+            });
         epRuntime =  EPRuntimeProvider.getDefaultRuntime(config);
         init();
     }

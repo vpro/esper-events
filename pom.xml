@@ -43,8 +43,10 @@
 
   <properties>
     <slf4j.version>2.0.11</slf4j.version>
-    <junit.version>5.10.1</junit.version>
     <esper.version>9.0.0</esper.version>
+
+    <junit.version>5.10.1</junit.version>
+    <log4j2.version>2.23.1</log4j2.version>
   </properties>
 
   <dependencies>
@@ -108,14 +110,28 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j2.version}</version>
+      <scope>test</scope>
+
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>${log4j2.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
+      <version>${log4j2.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>

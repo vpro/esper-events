@@ -5,7 +5,6 @@
 package nl.vpro.esper.service;
 
 import java.time.Duration;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class AsyncEventServiceProviderTest {
     public void setup() {
         Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
         provider = AsyncEventServiceProviderImpl.asyncBuilder().name("200")
-            .eventPackages(Set.of("nl.vpro.esper.event"))
+            .packages("nl.vpro.esper.event")
             .build();
         provider.init();
         provider.addStatement(testStatement);

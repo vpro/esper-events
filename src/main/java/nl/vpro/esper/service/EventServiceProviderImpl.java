@@ -19,6 +19,8 @@ import com.espertech.esper.compiler.client.*;
 import com.espertech.esper.runtime.client.*;
 import com.google.common.reflect.ClassPath;
 
+import nl.vpro.esper.EsperEvent;
+
 @Slf4j
 public class EventServiceProviderImpl implements EventServiceProvider {
 
@@ -109,6 +111,17 @@ public class EventServiceProviderImpl implements EventServiceProvider {
             compiler.compile(statement.getEPL(), args)
         );
         statement.setEPStatement(deployment.getStatements()[0]);
+    }
+
+    public static class Builder {
+        public Builder packages(String... eventPackages) {
+            return eventPackages(Set.of(eventPackages));
+        }
+
+        public Builder esperEventAnnotation() {
+            return eventAnnotations(Set.of(EsperEvent.class));
+        }
+
     }
 
 }

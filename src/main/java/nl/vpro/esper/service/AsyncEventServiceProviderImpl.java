@@ -17,6 +17,8 @@ import java.util.concurrent.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
+import nl.vpro.esper.EsperEvent;
+
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
 
@@ -36,7 +38,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         Set<Class<? extends Annotation>> eventAnnotations,
         int queueCapacity)  {
         super(name, eventPackages, eventAnnotations);
-        queue = new ArrayBlockingQueue<>(queueCapacity);
+        queue = new ArrayBlockingQueue<>(queueCapacity <=0 ? 1000 : queueCapacity);
     }
 
 
@@ -102,4 +104,16 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
             }
         }
     }
+
+    public static class Builder {
+
+        public AsyncEventServiceProviderImpl.Builder packages(String... eventPackages) {
+            return eventPackages(Set.of(eventPackages));
+        }
+
+        public AsyncEventServiceProviderImpl.Builder esperEventAnnotation() {
+            return eventAnnotations(Set.of(EsperEvent.class));
+        }
+    }
+
 }

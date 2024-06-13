@@ -4,12 +4,9 @@
  */
 package nl.vpro.esper.service;
 
-import java.util.Set;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import nl.vpro.esper.EsperEvent;
 import nl.vpro.esper.event.TestEvent;
 import nl.vpro.esper.listener.Counter;
 
@@ -25,7 +22,7 @@ public class EventServiceProviderTest {
     public void setup() {
         Statement testStatement = new Statement("select count(*) from TestEvent where name like '%6'");
         provider = EventServiceProviderImpl.builder()
-            .eventAnnotations(Set.of(EsperEvent.class))
+            .esperEventAnnotation()
             .build();
         provider.addStatement(testStatement);
         listener = new Counter();

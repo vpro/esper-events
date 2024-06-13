@@ -4,15 +4,17 @@
  */
 package nl.vpro.esper.listener;
 
-import com.espertech.esper.client.EventBean;
-import com.espertech.esper.client.UpdateListener;
-import com.espertech.esper.event.map.MapEventBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.espertech.esper.common.client.EventBean;
+import com.espertech.esper.common.internal.event.map.MapEventBean;
+import com.espertech.esper.runtime.client.*;
 
 public class EventLogger implements UpdateListener {
     private final Logger logger;
@@ -28,7 +30,7 @@ public class EventLogger implements UpdateListener {
     }
 
     @Override
-    public void update(EventBean[] newEvents, EventBean[] oldEvents) {
+    public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         EventBean eventBean = newEvents[0];
 
         List<Object> propList;

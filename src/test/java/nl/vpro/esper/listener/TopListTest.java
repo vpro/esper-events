@@ -5,11 +5,11 @@
 package nl.vpro.esper.listener;
 
 
-import nl.vpro.esper.event.TestEvent;
-import nl.vpro.esper.service.EventServiceProvider;
-import nl.vpro.esper.service.Statement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import nl.vpro.esper.event.TestEvent;
+import nl.vpro.esper.service.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,7 +26,7 @@ public class TopListTest {
     EventServiceProvider provider;
     @BeforeEach
     public void setup() {
-        provider = new nl.vpro.esper.service.EventServiceProviderImpl();
+        provider = new EventServiceProviderImpl("test", TestEvent.class.getPackage());
         Statement statement = new Statement("select name, count(*) from TestEvent.win:time(1 min) group by name");
         listener = new TopList("name", 5, true);
         statement.addListener(listener);
@@ -48,4 +48,6 @@ public class TopListTest {
         assertThat(listener.getTopRatings().get(4).getKey()).isEqualTo("Event 16");
         assertThat(listener.getTopRatings().get(4).getScore()).isEqualTo(16);
     }
+
+
 }

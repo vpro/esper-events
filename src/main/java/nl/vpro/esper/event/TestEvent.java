@@ -4,18 +4,15 @@
  */
 package nl.vpro.esper.event;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class TestEvent {
     private String name;
 
     public TestEvent(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 

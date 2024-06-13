@@ -4,71 +4,91 @@
  */
 package nl.vpro.esper.service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import lombok.Setter;
+import lombok.SneakyThrows;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import java.util.*;
 
-import com.espertech.esper.client.*;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
+import com.espertech.esper.common.client.configuration.Configuration;
+import com.espertech.esper.compiler.client.*;
+import com.espertech.esper.runtime.client.*;
+import com.google.common.reflect.ClassPath;
+
 
 public class EventServiceProviderImpl implements EventServiceProvider {
 
-    protected final EPServiceProvider epServiceProvider;
 
     protected final EPRuntime epRuntime;
 
+    @Setter
     protected Set<Statement> statements = new LinkedHashSet<>();
 
-    public EventServiceProviderImpl() {
-        Configuration config = new Configuration();
-        config.addEventTypeAutoName("nl.vpro.esper.event");
+    Configuration config = new Configuration();
 
-        epServiceProvider = EPServiceProviderManager.getDefaultProvider(config);
-        epRuntime = epServiceProvider.getEPRuntime();
+
+    public EventServiceProviderImpl() {
+        this(null);
     }
 
-    public EventServiceProviderImpl(String name) {
+    public EventServiceProviderImpl(String name)  {
         this(name, "nl.vpro.esper.event");
     }
 
-    public EventServiceProviderImpl(String name, String... eventPackages) {
-        Configuration config = new Configuration();
-        for (String eventPackage : eventPackages) {
-            config.addEventTypeAutoName(eventPackage);
-        }
-
-        epServiceProvider = EPServiceProviderManager.getProvider(name, config);
-        epRuntime = epServiceProvider.getEPRuntime();
+    @SneakyThrows
+    public EventServiceProviderImpl(String name, String... eventPackages)  {
+        Set<String> eventPackagesSet = Set.of(eventPackages);
+        ClassPath.from(ClassLoader.getSystemClassLoader())
+            .getAllClasses()
+            .stream()
+            .filter(c -> eventPackagesSet.contains(c.getPackageName()))
+            .map(ClassPath.ClassInfo::load)
+            .forEach(config.getCommon()::addEventType);
+        epRuntime =  EPRuntimeProvider.getDefaultRuntime(config);
+        init();
     }
 
+     public EventServiceProviderImpl(String name, Package... eventPackages) {
+         this(name, Arrays.stream(eventPackages).map(Package::getName).toArray(String[]::new));
+    }
+
+    @SneakyThrows
     @PostConstruct
     private void init() {
         for(Statement statement : statements) {
-            EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
-            statement.setEPStatement(epStatement);
+            initStatement(statement);
         }
     }
 
     @PreDestroy
     private void shutDown() {
-        epServiceProvider.destroy();
+        epRuntime.destroy();
     }
 
     @Override
     public void send(Object event) {
-        epRuntime.sendEvent(event);
+        epRuntime.getEventService().sendEventBean(event, event.getClass().getSimpleName());
     }
 
+    @SneakyThrows
     @Override
     public void addStatement(Statement statement) {
         this.statements.add(statement);
-
-        EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
-        statement.setEPStatement(epStatement);
+        initStatement(statement);
     }
 
-    public void setStatements(Set<Statement> statements) {
-        this.statements = statements;
+    private void initStatement(Statement statement) throws EPCompileException, EPDeployException {
+        CompilerArguments args = new CompilerArguments();
+        args.getPath().add(epRuntime.getRuntimePath());
+        args.setConfiguration(config);
+        EPCompiler compiler = EPCompilerProvider.getCompiler();
+
+        EPDeployment deployment = epRuntime.getDeploymentService().deploy(
+            compiler.compile(statement.getEPL(), args)
+        );
+        statement.setEPStatement(deployment.getStatements()[0]);
     }
+
 }

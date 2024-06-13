@@ -4,14 +4,14 @@
  */
 package nl.vpro.esper.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import com.espertech.esper.client.EventBean;
-import com.espertech.esper.client.UpdateListener;
-import com.espertech.esper.event.map.MapEventBean;
+import com.espertech.esper.common.client.EventBean;
+import com.espertech.esper.common.internal.event.map.MapEventBean;
+import com.espertech.esper.runtime.client.*;
 
 /**
  * Creates a toplist with ratings from events aggregated with count(*) over a given time window, grouped
@@ -47,8 +47,7 @@ public class TopList implements UpdateListener {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void update(EventBean[] newEvents, EventBean[] oldEvents) {
+    public void update(EventBean[] newEvents, EventBean[] oldEvents, EPStatement statement, EPRuntime runtime) {
         EventBean eventBean = newEvents[0];
 
         if(eventBean instanceof MapEventBean) {
@@ -84,6 +83,7 @@ public class TopList implements UpdateListener {
         }
     }
 
+    @Getter
     public static final class Rating implements Comparable<Rating> {
         private final String key;
 
@@ -92,14 +92,6 @@ public class TopList implements UpdateListener {
         private Rating(String key, Long score) {
             this.key = key;
             this.score = score;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public Long getScore() {
-            return score;
         }
 
         @Override

@@ -8,11 +8,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.*;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
+import com.espertech.esper.compiler.client.EPCompileException;
+import com.espertech.esper.runtime.client.EPDeployException;
 
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
@@ -27,7 +31,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     private boolean running = true;
 
 
-    public AsyncEventServiceProviderImpl(int queueCapacity) {
+    public AsyncEventServiceProviderImpl(int queueCapacity) throws EPDeployException, EPCompileException {
         super();
         queue = new ArrayBlockingQueue<>(queueCapacity);
     }
@@ -36,11 +40,11 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         this(name, 200);
     }
 
-    public AsyncEventServiceProviderImpl(String name, int queueCapacity) {
+    public AsyncEventServiceProviderImpl(String name, int queueCapacity)  {
         this(name, new String[] {}, queueCapacity);
     }
 
-    public AsyncEventServiceProviderImpl(String name, String... eventPackage) {
+    public AsyncEventServiceProviderImpl(String name, String... eventPackage)  {
         this(name, eventPackage, 200);
     }
 
@@ -48,7 +52,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         this(name, new String[] {eventPackage}, queueCapacity);
     }
 
-    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueCapacity) {
+    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueCapacity)  {
         super(name, eventPackage);
         queue = new ArrayBlockingQueue<>(queueCapacity);
     }
@@ -62,7 +66,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     @PreDestroy
     private void shutDown() {
         running = false;
-        epServiceProvider.destroy();
+        epRuntime.destroy();
         queue.clear();
         EXECUTOR.shutdownNow();
     }
@@ -104,7 +108,7 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
                     }
                     Object event = queue.poll(5, TimeUnit.SECONDS);
                     if (event != null) {
-                        epRuntime.sendEvent(event);
+                        epRuntime.getEventService().sendEventBean(event, event.getClass().getSimpleName());
                     }
                 } catch(InterruptedException e) {
                     log.info("Interrupted");

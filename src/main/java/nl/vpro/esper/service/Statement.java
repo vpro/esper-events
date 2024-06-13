@@ -7,8 +7,10 @@ package nl.vpro.esper.service;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.espertech.esper.client.EPStatement;
-import com.espertech.esper.client.UpdateListener;
+import com.espertech.esper.runtime.client.EPStatement;
+import com.espertech.esper.runtime.client.UpdateListener;
+
+
 
 public class Statement {
     private final String epl;

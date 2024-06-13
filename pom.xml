@@ -4,7 +4,7 @@
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
-  <version>3.0</version>
+  <version>3.1-SNAPSHOT</version>
 
   <name>VPRO Esper Events</name>
   <inceptionYear>2012</inceptionYear>

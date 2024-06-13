@@ -40,7 +40,7 @@ public class EventServiceProviderImpl implements EventServiceProvider {
     @SneakyThrows
     public EventServiceProviderImpl(String name, String... eventPackages)  {
         Set<String> eventPackagesSet = Set.of(eventPackages);
-        ClassPath.from(ClassLoader.getSystemClassLoader())
+        ClassPath.from(getClass().getClassLoader())
             .getAllClasses()
             .stream()
             .filter(c -> eventPackagesSet.contains(c.getPackageName()))

@@ -1,11 +1,10 @@
 <?xml version="1.0" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>nl.vpro.esper</groupId>
   <artifactId>esper-events</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.0</version>
 
   <name>VPRO Esper Events</name>
   <inceptionYear>2012</inceptionYear>
@@ -38,7 +37,7 @@
     <connection>scm:git:git://git@github.com/vpro/esper-events.git</connection>
     <developerConnection>scm:git:git@github.com:vpro/esper-events.git</developerConnection>
     <url>https://github.com/vpro/esper-events</url>
-    <tag>HEAD</tag>
+    <tag>REL-3.0</tag>
   </scm>
 
   <properties>

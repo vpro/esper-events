@@ -8,15 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.annotation.Annotation;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Set;
 import java.util.concurrent.*;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-
-import com.espertech.esper.compiler.client.EPCompileException;
-import com.espertech.esper.runtime.client.EPDeployException;
 
 @Slf4j
 public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl implements AsyncEventServiceProvider {
@@ -30,30 +29,13 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
     private Duration defaultTimeout = Duration.ofSeconds(10);
     private boolean running = true;
 
-
-    public AsyncEventServiceProviderImpl(int queueCapacity) throws EPDeployException, EPCompileException {
-        super();
-        queue = new ArrayBlockingQueue<>(queueCapacity);
-    }
-
-    public AsyncEventServiceProviderImpl(String name) {
-        this(name, 200);
-    }
-
-    public AsyncEventServiceProviderImpl(String name, int queueCapacity)  {
-        this(name, new String[] {}, queueCapacity);
-    }
-
-    public AsyncEventServiceProviderImpl(String name, String... eventPackage)  {
-        this(name, eventPackage, 200);
-    }
-
-    public AsyncEventServiceProviderImpl(String name, String eventPackage, int queueCapacity) {
-        this(name, new String[] {eventPackage}, queueCapacity);
-    }
-
-    public AsyncEventServiceProviderImpl(String name, String[] eventPackage, int queueCapacity)  {
-        super(name, eventPackage);
+    @lombok.Builder(builderMethodName = "asyncBuilder")
+    private AsyncEventServiceProviderImpl(
+        String name,
+        Set<String> eventPackages,
+        Set<Class<? extends Annotation>> eventAnnotations,
+        int queueCapacity)  {
+        super(name, eventPackages, eventAnnotations);
         queue = new ArrayBlockingQueue<>(queueCapacity);
     }
 

@@ -7,8 +7,11 @@ package nl.vpro.esper.event;
 import lombok.Getter;
 import lombok.Setter;
 
+import nl.vpro.esper.EsperEvent;
+
 @Setter
 @Getter
+@EsperEvent
 public class TestEvent {
     private String name;
 

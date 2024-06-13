@@ -5,6 +5,8 @@
 package nl.vpro.esper.listener;
 
 
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +28,10 @@ public class TopListTest {
     EventServiceProvider provider;
     @BeforeEach
     public void setup() {
-        provider = new EventServiceProviderImpl("test", TestEvent.class.getPackage());
+        provider = EventServiceProviderImpl.builder()
+            .name("test")
+            .eventPackages(Set.of(TestEvent.class.getPackageName()))
+            .build();
         Statement statement = new Statement("select name, count(*) from TestEvent.win:time(1 min) group by name");
         listener = new TopList("name", 5, true);
         statement.addListener(listener);

@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 
 import jakarta.annotation.PostConstruct;
@@ -30,32 +31,47 @@ public class EventServiceProviderImpl implements EventServiceProvider {
     Configuration config = new Configuration();
 
 
-    public EventServiceProviderImpl() {
-        this(null);
-    }
-
-    public EventServiceProviderImpl(String name)  {
-        this(name, "nl.vpro.esper.event");
-    }
-
     @SneakyThrows
-    public EventServiceProviderImpl(String name, String... eventPackages)  {
-        Set<String> eventPackagesSet = Set.of(eventPackages);
+    @lombok.Builder
+    public EventServiceProviderImpl(
+        String name,
+        Set<String> eventPackages,
+        Set<Class<? extends Annotation>> eventAnnotations)  {
+        final Set<String> finalEventPackages;
+        if (eventPackages == null) {
+            finalEventPackages = Set.of("nl");
+        } else {
+            finalEventPackages = eventPackages;
+        }
         ClassPath.from(getClass().getClassLoader())
             .getAllClasses()
             .stream()
-            .filter(c -> eventPackagesSet.contains(c.getPackageName()))
-            .map(ClassPath.ClassInfo::load)
+            .filter(c -> ! c.getResourceName().equals("module-info.class"))
+            .filter(c ->
+                finalEventPackages.stream()
+                    .anyMatch(p ->
+                        c.getPackageName().equals(p) || c.getPackageName().startsWith(p + ".")
+                    )
+            )
+            .map(ci -> {
+                try {
+                    return ci.load();
+                } catch (Exception e) {
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .filter(c ->
+                eventAnnotations == null ||
+                    Arrays.stream(c.getAnnotations())
+                        .anyMatch(a -> eventAnnotations.stream().anyMatch(ac -> ac.isInstance(a)))
+            )
             .forEach((found) -> {
                 log.info("Found event type {}", found);
                 config.getCommon().addEventType(found);
             });
         epRuntime =  EPRuntimeProvider.getDefaultRuntime(config);
         init();
-    }
-
-     public EventServiceProviderImpl(String name, Package... eventPackages) {
-         this(name, Arrays.stream(eventPackages).map(Package::getName).toArray(String[]::new));
     }
 
     @SneakyThrows

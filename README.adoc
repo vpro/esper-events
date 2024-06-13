@@ -1,6 +1,24 @@
 = esper-events
- 
+
 image:https://img.shields.io/maven-central/v/nl.vpro.esper/esper-events.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/search?q=g:%22nl.vpro.esper%22%20AND%20a:%22esper-events%22]
 image:http://www.javadoc.io/badge/nl.vpro.esper/esper-events.svg?color=blue[javadoc,link=http://www.javadoc.io/doc/nl.vpro.esper/esper-events]
 image:https://codecov.io/gh/vpro/esper-events/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/vpro/esper-events]
 image:https://img.shields.io/nexus/s/https/oss.sonatype.org/nl.vpro.esper/esper-events.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/nl/vpro/esper/]
+
+
+|===
+|Version | espertech version | java version| date | remarks
+
+|3.0
+|9.0
+|17
+|june 2024
+| needed for jakarta, antlr4-runtime upgrades.
+
+|2.7
+|7.0
+|8
+|earlier
+|
+|===
+

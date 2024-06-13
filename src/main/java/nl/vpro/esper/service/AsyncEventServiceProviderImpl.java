@@ -11,8 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.annotation.Annotation;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -110,6 +112,10 @@ public class AsyncEventServiceProviderImpl extends EventServiceProviderImpl impl
         public AsyncEventServiceProviderImpl.Builder packages(String... eventPackages) {
             return eventPackages(Set.of(eventPackages));
         }
+
+         public AsyncEventServiceProviderImpl.Builder packages(Package... eventPackages) {
+            return eventPackages(Arrays.stream(eventPackages).map(Package::getName).collect(Collectors.toSet()));
+         }
 
         public AsyncEventServiceProviderImpl.Builder esperEventAnnotation() {
             return eventAnnotations(Set.of(EsperEvent.class));

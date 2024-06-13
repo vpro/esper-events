@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -116,6 +117,10 @@ public class EventServiceProviderImpl implements EventServiceProvider {
     public static class Builder {
         public Builder packages(String... eventPackages) {
             return eventPackages(Set.of(eventPackages));
+        }
+
+        public Builder packages(Package... eventPackages) {
+            return eventPackages(Arrays.stream(eventPackages).map(Package::getName).collect(Collectors.toSet()));
         }
 
         public Builder esperEventAnnotation() {

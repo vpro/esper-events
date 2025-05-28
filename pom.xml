@@ -82,7 +82,7 @@
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.9.4</version>
+      <version>1.11.0</version>
       <exclusions>
         <!-- as far as I know these dependencies are optional, at least for the one class we use org.apache.commons.beanutils.PropertyUtils -->
         <exclusion>

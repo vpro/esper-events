@@ -45,7 +45,7 @@
     <esper.version>9.0.0</esper.version>
 
     <junit.version>5.10.1</junit.version>
-    <log4j2.version>2.23.1</log4j2.version>
+    <log4j2.version>2.25.3</log4j2.version>
   </properties>
 
   <dependencies>
